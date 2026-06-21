@@ -86,6 +86,65 @@ export default defineConfig({
           },
         ],
       },
+      {
+        name: "settings",
+        label: "Ajustes de Estética",
+        path: "src/content/settings",
+        format: "json",
+        ui: {
+          allowedActions: {
+            create: false,
+            delete: false,
+          },
+        },
+        fields: [
+          {
+            type: "string",
+            name: "siteTitle",
+            label: "Título del Diario",
+            required: true,
+          },
+          {
+            type: "string",
+            name: "siteDescription",
+            label: "Descripción del Diario",
+          },
+          {
+            type: "string",
+            name: "authorName",
+            label: "Nombre del Autor",
+          },
+          {
+            type: "string",
+            name: "theme",
+            label: "Tema de Color",
+            options: [
+              { value: "dark", label: "Oscuro Absoluto (#0d0d0d)" },
+              { value: "light", label: "Claro Minimalista (#fbfbfb)" },
+              { value: "sepia", label: "Sepia / Vintage (#f4ecd8)" },
+              { value: "cyberpunk", label: "Cyberpunk (#120136)" }
+            ],
+          },
+          {
+            type: "string",
+            name: "primaryColor",
+            label: "Color de Acento",
+            ui: {
+              component: "color",
+            },
+          },
+          {
+            type: "string",
+            name: "fontFamily",
+            label: "Tipografía",
+            options: [
+              { value: "monospace", label: "Monoespacio (Monospace)" },
+              { value: "sans-serif", label: "Sin Serifas (Sans-Serif)" },
+              { value: "serif", label: "Con Serifas (Serif)" }
+            ],
+          },
+        ],
+      },
     ],
   },
 });

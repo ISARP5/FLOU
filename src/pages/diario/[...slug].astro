@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import DiaryLayout from '../../layouts/DiaryLayout.astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('diario');
@@ -13,84 +14,48 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<!doctype html>
-<html lang="es">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>{post.data.title} | FLOU</title>
-	</head>
-	<body>
-		<main>
-			<a class="back-link" href="/">← Inicio</a>
-			<article>
-				<header>
-					<h1>{post.data.title}</h1>
-					<div class="meta">
-						<time datetime={post.data.date.toISOString()}>
-							{post.data.date.toLocaleDateString('es-ES', {
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric',
-							})}
-						</time>
-						{post.data.tags && post.data.tags.length > 0 && (
-							<span class="tags">
-								{post.data.tags.map((tag) => (
-									<span class="tag">#{tag}</span>
-								))}
-							</span>
-						)}
-					</div>
-				</header>
-				<hr />
-				<div class="content">
-					<Content />
-				</div>
-			</article>
-		</main>
-	</body>
-</html>
+<DiaryLayout title={post.data.title}>
+	<a class="back-link" href="/FLOU/">← Inicio</a>
+	<article>
+		<header>
+			<h1>{post.data.title}</h1>
+			<div class="meta">
+				<time datetime={post.data.date.toISOString()}>
+					{post.data.date.toLocaleDateString('es-ES', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+					})}
+				</time>
+				{post.data.tags && post.data.tags.length > 0 && (
+					<span class="tags">
+						{post.data.tags.map((tag) => (
+							<span class="tag">#{tag}</span>
+						))}
+					</span>
+				)}
+			</div>
+		</header>
+		<hr />
+		<div class="content">
+			<Content />
+		</div>
+	</article>
+</DiaryLayout>
 
 <style>
-	html,
-	body {
-		background-color: #0d0d0d;
-		color: #cccccc;
-		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		justify-content: center;
-		min-height: 100vh;
-	}
-
-	main {
-		width: 100%;
-		max-width: 600px;
-		padding: 3rem 1.5rem;
-		box-sizing: border-box;
-	}
-
 	.back-link {
-		color: #888888;
+		color: var(--text);
+		opacity: 0.7;
 		text-decoration: none;
 		font-size: 0.9rem;
 		display: inline-block;
 		margin-bottom: 2rem;
-		transition: color 0.2s ease;
+		transition: opacity 0.2s ease;
 	}
 
 	.back-link:hover {
-		color: #ffffff;
-	}
-
-	h1 {
-		color: #ffffff;
-		font-size: 2rem;
-		margin: 0 0 0.5rem 0;
-		font-weight: 600;
-		line-height: 1.2;
+		opacity: 1;
 	}
 
 	.meta {
@@ -99,7 +64,7 @@ const { Content } = await render(post);
 		gap: 1rem;
 		align-items: center;
 		font-size: 0.9rem;
-		color: #666666;
+		opacity: 0.6;
 	}
 
 	.tags {
@@ -108,68 +73,6 @@ const { Content } = await render(post);
 	}
 
 	.tag {
-		color: #888888;
-	}
-
-	hr {
-		border: 0;
-		border-top: 1px solid #222222;
-		margin: 2rem 0;
-	}
-
-	.content {
-		line-height: 1.7;
-	}
-
-	.content :global(p) {
-		margin: 0 0 1.5rem 0;
-	}
-
-	.content :global(h2),
-	.content :global(h3) {
-		color: #ffffff;
-		margin: 2rem 0 1rem 0;
-	}
-
-	.content :global(a) {
-		color: #ffffff;
-		text-decoration: underline;
-		text-underline-offset: 3px;
-	}
-
-	.content :global(a:hover) {
-		color: #cccccc;
-	}
-
-	.content :global(code) {
-		background-color: #161616;
-		color: #e0e0e0;
-		padding: 0.2rem 0.4rem;
-		font-size: 0.9em;
-		border-radius: 3px;
-	}
-
-	.content :global(pre) {
-		background-color: #161616 !important;
-		padding: 1rem;
-		border-radius: 6px;
-		overflow-x: auto;
-		margin-bottom: 1.5rem;
-	}
-
-	.content :global(pre code) {
-		background-color: transparent;
-		padding: 0;
-		font-size: 0.85em;
-	}
-
-	.content :global(ul),
-	.content :global(ol) {
-		margin: 0 0 1.5rem 0;
-		padding-left: 1.5rem;
-	}
-
-	.content :global(li) {
-		margin-bottom: 0.5rem;
+		opacity: 0.8;
 	}
 </style>

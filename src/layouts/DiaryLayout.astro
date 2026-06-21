@@ -1,0 +1,150 @@
+---
+import aesthetics from '../content/settings/aesthetics.json';
+
+const { title, description } = Astro.props;
+
+const siteTitle = aesthetics.siteTitle || "FLOU";
+const siteDescription = aesthetics.siteDescription || description || "Mi diario personal";
+const primaryColor = aesthetics.primaryColor || "#ffffff";
+const theme = aesthetics.theme || "dark";
+const font = aesthetics.fontFamily || "monospace";
+
+// Define theme-based styling tokens
+let bg = "#0d0d0d";
+let text = "#cccccc";
+let heading = "#ffffff";
+let cardBg = "#161616";
+let border = "#222222";
+
+if (theme === 'light') {
+  bg = "#fbfbfb";
+  text = "#333333";
+  heading = "#000000";
+  cardBg = "#f0f0f0";
+  border = "#dddddd";
+} else if (theme === 'sepia') {
+  bg = "#f4ecd8";
+  text = "#433422";
+  heading = "#2b1c0c";
+  cardBg = "#ebdcb9";
+  border = "#d2c199";
+} else if (theme === 'cyberpunk') {
+  bg = "#120136";
+  text = "#00f0ff";
+  heading = "#ff007f";
+  cardBg = "#2a085c";
+  border = "#ff007f";
+}
+
+// Define font-family tokens
+let fontStack = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+if (font === 'sans-serif') {
+  fontStack = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif";
+} else if (font === 'serif') {
+  fontStack = "Georgia, Cambria, 'Times New Roman', Times, serif";
+}
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title ? `${title} | ${siteTitle}` : siteTitle}</title>
+  <meta name="description" content={siteDescription} />
+</head>
+<body>
+  <div class="site-container">
+    <slot />
+  </div>
+</body>
+</html>
+
+<style is:global define:vars={{ bg, text, heading, cardBg, border, primaryColor, fontStack }}>
+  html, body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--fontStack);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .site-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 3rem 1.5rem;
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--heading);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-top: 0;
+  }
+
+  a {
+    color: var(--primaryColor);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.2s ease;
+  }
+
+  a:hover {
+    opacity: 0.8;
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  code {
+    background-color: var(--cardBg);
+    color: var(--heading);
+    padding: 0.2rem 0.4rem;
+    font-size: 0.9em;
+    border-radius: 3px;
+  }
+
+  pre {
+    background-color: var(--cardBg) !important;
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+  }
+
+  pre code {
+    background-color: transparent;
+    padding: 0;
+    font-size: 0.85em;
+  }
+
+  p {
+    line-height: 1.7;
+    margin: 0 0 1.5rem 0;
+  }
+
+  ul, ol {
+    margin: 0 0 1.5rem 0;
+    padding-left: 1.5rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+</style>
