@@ -54,6 +54,39 @@ export default defineConfig({
           },
         ],
       },
+      {
+        name: "diario",
+        label: "Diario",
+        path: "src/content/diario",
+        fields: [
+          {
+            type: "string",
+            name: "title",
+            label: "Título",
+            isTitle: true,
+            required: true,
+          },
+          {
+            type: "datetime",
+            name: "date",
+            label: "Fecha",
+            required: true,
+          },
+          {
+            type: "string",
+            name: "tags",
+            label: "Etiquetas",
+            list: true,
+          },
+          {
+            type: "rich-text",
+            name: "body",
+            label: "Cuerpo",
+            isBody: true,
+          },
+        ],
+      },
     ],
   },
 });
+
